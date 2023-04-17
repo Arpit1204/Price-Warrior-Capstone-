@@ -9,7 +9,7 @@ const bcrypt = require("bcryptjs")
 
 app.use(cors(
   {
-    origin:["http://localhost:3000" , "https://pricewarrior.netlify.app","https:pricewarriortask.netlify.app"]
+    origin:["http://localhost:3000" , "https://pricewarrior.netlify.app","https://pricewarriortask.netlify.app"]
   }
 ));
 app.use(express.json());
