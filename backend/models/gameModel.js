@@ -8,6 +8,9 @@ const gamesSchema = new Schema({
     required: true
     
   },
+  sentence:{
+type:String
+},
   lastName:{
         type:String,
         required: true
@@ -172,6 +175,6 @@ isUpcoming:{
 },
 
   
-})
+},{timestamps:true})
 
 module.exports = mongoose.model('Games', gamesSchema)

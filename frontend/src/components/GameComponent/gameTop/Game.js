@@ -17,9 +17,22 @@ function Game({
   name,
   lastName,
   edition,
+  sentence,
+  createdAt
 }) {
   const [prices, setPrices] = useState("Current");
-
+  
+  const created = createdAt.slice(0,10)
+  const x = sentence.split(' ')
+  console.log(x);
+  useEffect(()=>{
+    for(let i=0; i<x.length; i++){
+      if(x[i]==='updated'){
+        document.getElementById('createdAt').style.display = 'none'
+      }
+    }
+  })
+  
   const handleClick = (e) => {
     setPrices(e.target.innerText);
 
@@ -45,9 +58,7 @@ function Game({
   };
   return (
     <div>
-      {/* <div>
-      <img id='game-img' src={img}/>
-      </div> */}
+      
       <div className="outer-div">
         <div className="game-detail">
           <div id="res-carousel" className="game-img-div">
@@ -91,7 +102,9 @@ function Game({
             <p>
               Our website compares prices from all major retailers and gaming
               platforms, so you can be sure you're getting the best deal.
+              
             </p>
+            <h4>{sentence} <span id="createdAt">{created}</span></h4>
             <h2>{rating}⭐</h2>
           </div>
         </div>

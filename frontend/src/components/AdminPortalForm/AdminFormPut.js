@@ -8,6 +8,7 @@ function AdminFormPut() {
   const { id } = useParams();
   console.log(id);
   const [isHide, setIsHide] = useState(true);
+  const userName = sessionStorage.getItem('username')
 
   useEffect(() => {
     const api = async () => {
@@ -42,6 +43,7 @@ function AdminFormPut() {
       setTags(res.data.tags);
       setRelatedLinks(res.data.relatedLinks);
       setCrousel(res.data.crouselImage);
+      setSentence(`${userName} updated this game on ${res.data.updatedAt.slice(0,10)}`)
 
       setTimeout(() => setIsHide(false), 2000);
     };
@@ -68,6 +70,7 @@ function AdminFormPut() {
   const [historyMin, setHistoryMin] = useState("");
   const [historyAvg, setHistoryAvg] = useState("");
   const [historyMax, setHistoryMax] = useState("");
+  const [sentence, setSentence] = useState("");
   const [editions, setEditions] = useState([{ editionName: "" }]);
 
   const [minimumRequirements, setMinimumRequirements] = useState([
@@ -233,6 +236,7 @@ function AdminFormPut() {
   };
 
   const removeEditions = () => {};
+  const Token=sessionStorage.getItem("token")
 
   const Update = async (e) => {
     e.preventDefault();
@@ -249,6 +253,11 @@ function AdminFormPut() {
           // Adding method type
           method: "PUT",
 
+          headers: {
+            'Authorization': 'Bearer ' + Token,
+            "Content-type": "application/json; charset=UTF-8",
+          },
+          
           // Adding body or contents to send
           body: JSON.stringify({
             name: name,
@@ -278,10 +287,9 @@ function AdminFormPut() {
             historyMin: historyMin,
             historyAvg: historyAvg,
             historyMax: historyMax,
+            sentence:sentence
           }),
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-          },
+          
         }
       )
         // Converting to JSON
@@ -419,7 +427,7 @@ function AdminFormPut() {
                 <label>
                   <h2>Trailer</h2>
                 </label>
-                <div className="admin-search-form">
+                <div className="admin-search-form-2">
                   <input
                     placeholder="Trailer Link"
                     value={trailer}
@@ -433,12 +441,26 @@ function AdminFormPut() {
                   <label>
                     <h2>Detail Image</h2>
                   </label>
-                  <div className="admin-search-form">
+                  <div className="admin-search-form-2">
                     <input
                       placeholder="Img for detail page"
                       value={detailImage}
                       type="text"
                       onChange={(e) => setDetailImage(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div className="each-labe-input">
+                  <label>
+                    <h2>Updator Name</h2>
+                  </label>
+                  <div className="admin-search-form-2">
+                    <input
+                      placeholder="Updator name"
+                      value={sentence}
+                      type="text"
+                      onChange={(e) => setSentence(e.target.value)}
                     />
                   </div>
                 </div>

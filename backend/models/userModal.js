@@ -1,22 +1,30 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
-const Schema = mongoose.Schema
+const userModel = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  email: {
+    type: String,
+    // required: true,
+    trim: true,
+  },
+  password: {
+    type: String,
+    Number,
+    trim: true,
+  },
+  isAdmin: {
+    type: Boolean,
+  },
+  withGoogle: {
+    type: Boolean,
+    trim: true,
+  },
+});
 
-const  userSchema= new Schema({
-    name:{
-        type:String,
-        required:true
-    },
-    email:{
-        type:String,
-        required:true
-    },
-    isAdmin:{
-        type:Boolean,
-        required:true
-    },
+const ChannelModel = mongoose.model("userDetail", userModel);
 
-
-})
-
-module.exports = mongoose.model('UserData', userSchema)
+module.exports = ChannelModel;

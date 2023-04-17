@@ -5,11 +5,13 @@ import { Button } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 
 export default function LoginAuth0() {
-  const { loginWithRedirect, user, isAuthenticated, isLoading, logout } =
+  const { loginWithRedirect, user, isAuthenticated, isLoading, logout, getAccessTokenSilently } =
     useAuth0();
 
   const [alert, setAlert] = useState(false);
   const authDataRef = useRef(null);
+  
+
   
   useEffect(() => {
     function handleClickOutside(event) {
@@ -29,8 +31,9 @@ export default function LoginAuth0() {
   if (isLoading) {
     return <h2 style={{ color: "#fff" }}>Plz Wait...</h2>;
   }
-
   
+    
+
 
 
   return (

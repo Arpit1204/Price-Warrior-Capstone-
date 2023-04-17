@@ -5,6 +5,7 @@ function AdminForm() {
   const [isHide, setIsHide] = useState(true);
 
   setTimeout(() => setIsHide(false), 6000);
+  const userName = sessionStorage.getItem('username')
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
   const [homeGenre, setHomeGenre] = useState("");
@@ -24,6 +25,7 @@ function AdminForm() {
   const [historyMin, setHistoryMin] = useState("");
   const [historyAvg, setHistoryAvg] = useState("");
   const [historyMax, setHistoryMax] = useState("");
+  const [sentence, setSentence] = useState(`${userName} added this Game on`);
   const [editions, setEditions] = useState([{ editionName: "" }]);
 
   const [minimumRequirements, setMinimumRequirements] = useState([
@@ -198,6 +200,9 @@ function AdminForm() {
     setEditions([...editions, obj]);
   };
 
+  const Token=sessionStorage.getItem("token")
+  console.log(Token)
+
   const submit = (e) => {
     e.preventDefault();
     if (
@@ -211,9 +216,16 @@ function AdminForm() {
         // Adding method type
         method: "POST",
 
+
+        headers: {
+          'Authorization': 'Bearer ' + Token,
+          "Content-type": "application/json; charset=UTF-8",
+        },
+        
         // Adding body or contents to send
         body: JSON.stringify({
           name: name,
+          sentence:sentence,
           lastName: lastName,
           homeGenre: homeGenre,
           homeImage: homeImage,
@@ -243,9 +255,7 @@ function AdminForm() {
         }),
 
         // Adding headers to the request
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
+       
       })
         // Converting to JSON
         .then((response) => response.json())
@@ -382,7 +392,7 @@ function AdminForm() {
                 <label>
                   <h2>Trailer</h2>
                 </label>
-                <div className="admin-search-form">
+                <div className="admin-search-form-2">
                   <input
                     placeholder="Trailer Link"
                     value={trailer}
@@ -396,7 +406,7 @@ function AdminForm() {
                   <label>
                     <h2>Detail Image</h2>
                   </label>
-                  <div className="admin-search-form">
+                  <div className="admin-search-form-2">
                     <input
                       placeholder="Img for detail page"
                       value={detailImage}
@@ -405,6 +415,20 @@ function AdminForm() {
                     />
                   </div>
                 </div>
+
+                <div className="each-labe-input">
+                <label>
+                  <h2>Author</h2>
+                </label>
+                <div className="admin-search-form-2">
+                  <input
+                    placeholder="Author Name"
+                    value={sentence}
+                    type="text"
+                    onChange={(e) => setSentence(e.target.value)}
+                  />
+                </div>
+              </div>
 
               
             </div>

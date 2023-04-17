@@ -37,23 +37,37 @@
   flex-direction: column;
   background-color: var(--marigold);
   color: var(--black);
-  padding: 2rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
   z-index: 1;
+  justify-content: space-around;
+  align-items: center;
   position: absolute;
-  width: 30rem;
+  width: 14rem;
   border-radius: 1rem;
   font-family: "Poppins";
   font-weight: 700;
   font-size: 1.8rem;
   line-height: 2.7rem;
-  top: 6.5rem;
-  right: 10px;
-}
+  top: 7.5rem;
+  right: 28px;
+  height: 15vh;}
+
+  .alert-text{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* border-bottom: 1px solid black; */
+  }
 
 .alert-btn-container {
   display: flex;
   gap: 1rem;
-  margin-left: auto;
+  /* margin-left: auto; */
+  align-items: center;
+  cursor: pointer;
+
 }
 
 .alert-btn {
@@ -78,10 +92,12 @@
   }
 }
 
-@media (max-width: 350px) {
+@media (max-width: 550px) {
   .logoutAlert {
-    width: 24rem;
-    right: 8px;
+    /* width: 24rem; */
+    right: 5px;
+    justify-content: space-around;
+    /* top: 7.9rem; */
   }
 }
 

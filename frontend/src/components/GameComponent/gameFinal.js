@@ -55,6 +55,8 @@ function GameFinal() {
    historyAvg={gameData.historyAvg}
    historyMax={gameData.historyMax}
    carouselImage={gameData.crouselImage}
+   sentence = {gameData.sentence}
+   createdAt = {gameData.createdAt}
  />
 
  <Nav setSelectedButton={setSelectedButton} />

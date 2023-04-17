@@ -1,0 +1,33 @@
+.single-user{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    border-bottom: 1px solid black;
+
+}
+
+.heading{
+text-align: center;
+color: var(--marigold);
+margin-bottom: 2rem;
+text-decoration: underline;
+}
+
+.outer-userList-div{
+    background-color: rgb(174, 170, 164);
+    min-height: 64vh;
+}
+
+.single-user .each-labe-input input{
+    border-radius: 1rem;
+}
+
+.single-user .each-labe-input input:hover{
+    background-color: aqua;
+}
+
+@media (max-width:780px){
+    .name-userList{
+        display: none;
+    }
+}

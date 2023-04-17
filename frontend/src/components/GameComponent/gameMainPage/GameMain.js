@@ -5,19 +5,56 @@ import { Link } from "react-router-dom";
 import { MdDelete, MdEdit, MdTrendingUp } from "react-icons/md";
 import { FaSearch } from "react-icons/fa";
 import { useAuth0 } from "@auth0/auth0-react";
+import  {  useEffect } from 'react';
+import jwt_decode from 'jwt-decode'
 
 const GameList = ({List, setList}) => {
 
   const [search, setSearch] = useState("");
+  const [userDetail, setUserDetail] = useState([]);
 
+  const Token=sessionStorage.getItem("token")
+  useEffect(()=>{
+    console.log("detail",userDetail);
+  },[userDetail])
+  useEffect(() => {
+    // Get the JWT token from local storage or another source
+
+    if (Token) {
+      try {
+        // Decode the JWT token
+        const decodedToken = jwt_decode(Token);
+        console.log(decodedToken)
+// 
+        // Extract the user ID from the decoded token
+        const userId = decodedToken._id;
+
+        // Fetch the user profile data from Atlas API using the user ID
+        fetch(`${process.env.REACT_APP_DataBase_link_to_Access_data}/user/${userId}`)
+          .then(res => res.json())
+          .then(data => {
+            setUserDetail(data);
+          });
+      } catch (error) {
+        console.error('Error decoding JWT token:', error);
+      }
+    }
+  }, []);
   
-  const { user, isAuthenticated } = useAuth0();
+  
+
   const handleDelete = (id) => {
     
     fetch(
       `${process.env.REACT_APP_DataBase_link_to_Access_data}/gameDelete/${id}`,
       {
         method: "DELETE",
+
+
+        headers: {
+          'Authorization': 'Bearer ' + Token,
+          "Content-type": "application/json; charset=UTF-8",
+        }
       }
     );
     setList((prev) => prev.filter((elt) => elt._id !== id));
@@ -38,7 +75,7 @@ const GameList = ({List, setList}) => {
   return (
     <div>
       <div className="outer-box">
-        {isAuthenticated && (user.email === "arpit.gulati@kalvium.community" || user.email === "kasinath.sg@kalvium.community") && (
+      {userDetail && userDetail.isAdmin && (
           <div className="box">
             <input
               type="search"
@@ -60,26 +97,28 @@ const GameList = ({List, setList}) => {
                 <div className="game-page-card">
                   <img className="game-page-cards-img" src={game.homeImage} />
 
-                  {isAuthenticated &&
-                    (user.email === "arpit.gulati@kalvium.community" || user.email === "kasinath.sg@kalvium.community") && (
-                      <div className="delete-edit">
+                  
+                  {userDetail && userDetail.isAdmin &&(
+                    <div className="delete-edit">
                         
-                        <div onClick={() => {if(window.confirm('Do you realy want to delete?')){handleDelete(game._id)}} }>
-                          
-                          <MdDelete
-                            style={{ color: "#fff", fontSize: "2.5rem" }}
-                          />
-                        </div>
+                    <div onClick={() => {if(window.confirm('Do you realy want to delete?')){handleDelete(game._id)}} }>
+                      
+                      <MdDelete
+                        style={{ color: "#fff", fontSize: "2.5rem" }}
+                      />
+                    </div>
 
-                        <div className="delete">
-                          <Link to={`/adminopput/${game._id}`}>
-                            <MdEdit
-                              style={{ color: "#fff", fontSize: "2.5rem" }}
-                            />
-                          </Link>
-                        </div>
-                      </div>
-                    )}
+                    <div className="delete">
+                      <Link to={`/adminopput/${game._id}`}>
+                        <MdEdit
+                          style={{ color: "#fff", fontSize: "2.5rem" }}
+                        />
+                      </Link>
+                    </div>
+                  </div>
+                  )}  
+                      
+                    
                   <Link
                     to={`/games/${game._id}`}
                     style={{ textDecoration: "none", color: "white" }}

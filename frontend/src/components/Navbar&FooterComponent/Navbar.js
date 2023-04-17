@@ -7,14 +7,47 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import LoginButton from "../RegistrationForm/LoginButton";
+import { RiAdminFill } from "react-icons/ri";
 import axios from "axios";
 import logoPrice from "../asseets/logoPrice2.png";
+import PersonIcon from "@mui/icons-material/Person";
+import jwt_decode from 'jwt-decode'
+import { MdLogout } from "react-icons/md";
+
 
 function Navbar({ mainRef }) {
   const [isHovered, setIsHovered] = useState(false);
   const [value, setValue] = useState("");
   const [data, setData] = useState([]);
+  const [alert, setAlert] = useState(false);
+  const [userDetail, setUserDetail] = useState([])
 
+  const Token=sessionStorage.getItem("token")
+  useEffect(()=>{
+    console.log(userDetail);
+  },[userDetail])
+  useEffect(() => {
+    // Get the JWT token from local storage or another source
+
+    if (Token) {
+      try {
+        // Decode the JWT token
+        const decodedToken = jwt_decode(Token);
+// 
+        // Extract the user ID from the decoded token
+        const userId = decodedToken._id;
+
+        // Fetch the user profile data from Atlas API using the user ID
+        fetch(`${process.env.REACT_APP_DataBase_link_to_Access_data}/user/${userId}`)
+          .then(res => res.json())
+          .then(data => {
+            setUserDetail(data);
+          });
+      } catch (error) {
+        console.error('Error decoding JWT token:', error);
+      }
+    }
+  }, [Token]);
   useEffect(() => {
     console.log(data);
   }, [data]);
@@ -27,6 +60,9 @@ function Navbar({ mainRef }) {
     };
     searchList();
   }, []);
+
+  const userName = sessionStorage.getItem("username")
+  console.log(userName);
   const { user, isAuthenticated } = useAuth0();
 
   const handleMouseEnter = () => {
@@ -65,6 +101,16 @@ function Navbar({ mainRef }) {
     });
   };
 
+  const logout = ()=>{
+    sessionStorage.clear()
+    
+    setAlert(false)
+    window.location.href = '/'
+  }
+
+  const takeToAdminPage=()=>{
+    setAlert(false)
+  }
   return (
     <>
       <header className="header">
@@ -139,7 +185,53 @@ function Navbar({ mainRef }) {
             <div id="search-btn" onClick={handleSearch}>
               <FaSearch />
             </div>
-            <LoginButton />
+           
+              {userName?(
+<div onClick={() => setAlert(!alert)} style={{background:'var(--marigold)', borderRadius:'2rem', padding:'0.5rem'}}>
+  <PersonIcon style={{fontSize:"3rem", color:"#fff"}} />
+</div>
+              ):(
+                <Link to={"/login"}>
+<Button
+          variant="contained"
+          startIcon={<PersonIcon />}
+          color="success"
+          size="small"
+          style={{
+            fontSize: "1.5rem",
+            background: "#FFB800",
+            color: "black",
+            display: "flex",
+            alignItems: "center",
+          }}
+          
+        >
+          Login
+        </Button>
+        </Link>
+              )}
+
+
+{alert && (
+        <div className="logoutAlert" >
+          <div className="alert-text">
+           {userName}  <PersonIcon style={{marginLeft:'2px'}}/>
+          </div>
+          {userDetail && userDetail.isAdmin && (
+            <div className="alert-text"  style={{cursor:'pointer', borderBottom:'1px solid black', borderTop:'1px solid black'}}>
+              <Link to={'/adminonly'} onClick={takeToAdminPage}>
+           Admin <RiAdminFill/>
+          </Link>
+          </div>
+          )}
+          
+          <div className="alert-btn-container" onClick={logout}>
+           Logout <MdLogout style={{marginLeft:'2px'}}/>
+          </div>
+        </div>
+      )}
+            
+        
           </div>
         </div>
         <div className="header-2">
@@ -184,8 +276,7 @@ function Navbar({ mainRef }) {
                 About Us
               </Link>
             </div>
-            {isAuthenticated &&
-              (user.email === "arpit.gulati@kalvium.community" || user.email === "kasinath.sg@kalvium.community") && (
+            {userDetail && userDetail.isAdmin && (
                 <Link to={"/adminOp"} style={{ position: "absolute" }}>
                   <Button
                     style={{
