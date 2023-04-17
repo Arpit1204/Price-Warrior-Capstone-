@@ -10,6 +10,7 @@ const gamesSchema = new Schema({
   },
   sentence:{
 type:String
+    //sentence is author name who added or updated the game
 },
   lastName:{
         type:String,
