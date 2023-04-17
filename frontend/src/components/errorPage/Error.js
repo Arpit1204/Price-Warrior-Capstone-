@@ -6,7 +6,7 @@ function ErrorPage() {
     <div style={{height:'64vh'}}>
         <Spline 
           className='Spline'
-          scene='https://prod.spline.design/s-Ju3hpzU123GPax/scene.splinecode'
+          scene='https://prod.spline.design/RefPIDZctJGaFlZ4/scene.splinecode'
         />
     </div>
   )
