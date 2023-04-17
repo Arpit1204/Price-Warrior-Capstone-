@@ -63,7 +63,6 @@ function Navbar({ mainRef }) {
 
   const userName = sessionStorage.getItem("username")
   console.log(userName);
-  const { user, isAuthenticated } = useAuth0();
 
   const handleMouseEnter = () => {
     setIsHovered(true);

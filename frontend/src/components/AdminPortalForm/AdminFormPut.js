@@ -3,6 +3,8 @@ import "./admin.css";
 import axios from "axios";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import loadin from '../asseets/loadinghd7.gif'
+
 
 function AdminFormPut() {
   const { id } = useParams();
@@ -305,9 +307,9 @@ function AdminFormPut() {
     <div className="admin-form-outer-div">
       {isHide ? (
         <div className="abc">
-          {/* <img src={standby} alt="image description" /> */}
-          <h1>Loading Plzzz StandBy...</h1>
-        </div>
+        <img src={loadin} alt="image description" />
+        <h1>Loading...</h1>
+      </div>
       ) : (
         <form className="adminForm" onSubmit={(e) => Update(e)}>
           <div className="form-div">

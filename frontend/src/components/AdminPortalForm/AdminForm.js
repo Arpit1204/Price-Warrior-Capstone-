@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import "./admin.css";
 import { useState } from "react";
+import loadin from '../asseets/loadinghd7.gif'
+
 function AdminForm() {
   const [isHide, setIsHide] = useState(true);
 
@@ -270,8 +272,8 @@ function AdminForm() {
     <div className="admin-form-outer-div">
       {isHide ? (
         <div className="abc">
-          {/* <img src={standby} alt="image description" /> */}
-          <h1>Loading Plzzz StandBy...</h1>
+          <img src={loadin} alt="image description" />
+          <h1>Loading...</h1>
         </div>
       ) : (
         <form className="adminForm" onSubmit={(e) => submit(e)}>

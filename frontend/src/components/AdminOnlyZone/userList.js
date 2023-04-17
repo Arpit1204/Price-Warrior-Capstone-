@@ -76,20 +76,20 @@ const handlePut = (e, admin)=>{
         return(
 
         <div className='single-user'>
-            <label style={{display:'flex', alignItems:'center',width: '33.3%'}}>
+            <label id='userList-name' style={{display:'flex', alignItems:'center',width: '33.3%'}}>
                 <h2 className='name-userList'>Name:-</h2>
                 
-                <h3>{elt.name}</h3>
+                <h3 >{elt.name}</h3>
             </label>
             
-            <label style={{display:'flex', alignItems:'center',width: '33.3%'}}>
+            <label id='userList-email' style={{ alignItems:'center',width: '33.3%'}}>
                 {/* <h2>E-mail:-</h2> */}
                 
-                <h3 style={{wordBreak:'break-all'}}>{elt.email}</h3>
+                <h3  style={{wordBreak:'break-all'}}>{elt.email}</h3>
             </label>
 
             <div className="each-labe-input">
-            <label style={{justifyContent:'center'}}>
+            <label style={{justifyContent:'center',marginBottom: '1rem'}}>
               <h2>Admin</h2>
             </label>
             <div style={{width:'4vw', display:'flex',width: '33.3%'}}>
@@ -98,7 +98,7 @@ const handlePut = (e, admin)=>{
                  value={elt.isAdmin}  readOnly={true}/>
                 ➡️
                 <input
-                onClick={(e) => {if(window.confirm(`Do you want to do Admin Access to ${!elt.isAdmin} ?`)){
+                onClick={(e) => {if(window.confirm(`Do you want to do Admin Access of ${elt.name} to ${!elt.isAdmin} ?`)){
                     setUser((prev) => {
                       let newData = [...prev];
                       console.log("newData",newData);

@@ -26,8 +26,20 @@ text-decoration: underline;
     background-color: aqua;
 }
 
+#userList-name{
+    display: flex;
+}
+
 @media (max-width:780px){
     .name-userList{
+        display: none;
+        
+    }
+    #userList-name{
+        justify-content: center;
+    }
+
+    #userList-email{
         display: none;
     }
 }
