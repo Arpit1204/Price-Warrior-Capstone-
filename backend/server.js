@@ -9,7 +9,7 @@ const bcrypt = require("bcryptjs")
 
 app.use(cors(
   {
-    origin:["http://localhost:3000" , "https://pricewarrior.netlify.app"]
+    origin:["http://localhost:3000" , "https://pricewarrior.netlify.app","https://prismatic-arithmetic-702b28.netlify.app"]
   }
 ));
 app.use(express.json());
