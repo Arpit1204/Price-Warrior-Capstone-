@@ -51,10 +51,11 @@ const SignUp = () => {
  
 // Displaying results to console
 .then(json => {
-    alert('Signed In Successfully')
+    
     const decode = jwt_decode(json.user)
     sessionStorage.setItem("username",decode.name);
     sessionStorage.setItem("token",json.user)
+    alert('Signed In Successfully')
     navigate("/")
     window.location.reload(true)
     
