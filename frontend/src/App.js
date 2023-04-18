@@ -12,38 +12,16 @@ import { useEffect, useState } from "react";
 import { useRef } from "react";
 import axios from "axios";
 import ErrorPage from "./components/errorPage/ErrorPage";
-import loadin from '../src/components/asseets/loadinghd8.gif'
 function App() {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const apiCallGame = async()=>{
-      const res = await axios.get(`${process.env.REACT_APP_DataBase_link_to_Access_data}/gameGet`)
-        
-          setData(res.data);
-          setTimeout(()=>{
-            setLoading(false)
-          },2000)
-       
-
-    }
-    apiCallGame();
-  }, []);
+  
   const mainRef = useRef(null);
   return (
     <div className="App">
-      {loading?(
-        <div className="loading-ani-main">
-        <img width='250' src={loadin}/>
-        <h2>Loading... Plz Stand By!</h2>
-        </div>
-      ):(
-        <>
+      
 <Navbar mainRef = {mainRef} />
 
 <Routes>
-  <Route path={"/"} element={<Home  mainRef = {mainRef} data={data} />} />
+  <Route path={"/"} element={<Home  mainRef = {mainRef}/>} />
  
   <Route path={"/games/:id"} element={<GameFinal />} />
   <Route path={"/games"} element={<MainGameHome />} />
@@ -54,8 +32,8 @@ function App() {
   <Route path='*' element={<ErrorPage />}/>
 </Routes>
 <Footer />
-</>
-      )}
+
+      )
       
     </div>
   );
