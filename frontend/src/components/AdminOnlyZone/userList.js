@@ -2,7 +2,7 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import './userList.css'
-import { FaPlus } from 'react-icons/fa'
+import { FaPlus,FaMinus } from 'react-icons/fa'
 import { useParams } from 'react-router-dom'
 function UserList() {
    const {id} = useParams()
@@ -82,7 +82,7 @@ const handlePut = (admin)=>{
     <div className='outer-userList-div'>
 
     <h1 className='heading'>User List</h1>
-    {user.filter(item=>!item.isAdmin).filter(user=>!gamaData.userEditAccess.some(obj=>obj.id === user._id )).map((elt,i)=>{
+    {user.filter(item=>!item.isAdmin).map((elt,i)=>{
 
         return(
 
@@ -101,8 +101,10 @@ const handlePut = (admin)=>{
 
             <div className="each-labe-input">
             <label style={{justifyContent:'center',marginBottom: '1rem', width:'auto'}}>
-              <h2>Give Access</h2>
+              <h2>Access</h2>
             </label>
+            <div style={{display:'flex', width:'100%', justifyContent:'space-around'}}>
+            {gamaData && !gamaData.userEditAccess.some(obj=>obj.id == elt._id ) &&
             <div style={{textAlign:'center'}}
             id={elt._id}
             onClick={(e) => {if(window.confirm(`Do you want to do Admin Access of ${elt.name} to ${!elt.isAdmin} ?`)){
@@ -121,12 +123,31 @@ const handlePut = (admin)=>{
             }}}>
               <FaPlus style={{ backgroundColor:'#fff' , borderRadius:'50%', padding:'0.5rem',fontSize:'2.5rem', cursor:'pointer'}}/>
             </div>
-            <div style={{width:'4vw', display:'flex',width: '33.3%'}}>
-                
-            </div>
+    }
             
+            {gamaData && gamaData.userEditAccess.some(obj=>obj.id === elt._id ) &&
+            <div style={{textAlign:'center'}}
+            id={elt._id}
+            onClick={(e) => {if(window.confirm(`Do you want to do Admin Access of ${elt.name} to ${!elt.isAdmin} ?`)){
+              setGameData((prev) => {
+                let newData = {...prev};
+                console.log("deleted-id-newData",newData);
+                const indexToRemove = newData.userEditAccess.findIndex(obj => obj.id === elt._id);
+                if (indexToRemove !== -1) {
+                  newData.userEditAccess.splice(indexToRemove, 1);
+                }
+                
+                console.log("newData2",newData.userEditAccess);
+                
+                handlePut(newData.userEditAccess);
+                return newData;
+              });
+            }}}>
+              <FaMinus style={{ backgroundColor:'#fff' , borderRadius:'50%', padding:'0.5rem',fontSize:'2.5rem', cursor:'pointer'}}/>
+            </div>
+    }
           </div>
-
+            </div>
         </div>
         )
     })}
