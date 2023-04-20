@@ -14,7 +14,6 @@ const GameList = ({List, setList}) => {
   const [userDetail, setUserDetail] = useState([]);
 
   const Token=sessionStorage.getItem("token")
-  const decodedToken = jwt_decode(Token);
   useEffect(()=>{
     console.log("detail",userDetail);
   },[userDetail])
@@ -26,7 +25,8 @@ const GameList = ({List, setList}) => {
         // Decode the JWT token
         // const decodedToken = jwt_decode(Token);
         // console.log(decodedToken)
-// 
+  const decodedToken = jwt_decode(Token);
+
         // Extract the user ID from the decoded token
         const userId = decodedToken._id;
 
