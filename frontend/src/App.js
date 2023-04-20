@@ -25,9 +25,8 @@ function App() {
   <Route path={"/"} element={<Home  mainRef = {mainRef} />} />
   <Route path={'/login'} element={<Login/>}/>
   <Route path={'/signup'} element={<SignUp/>}/>
-  <Route path={"/games/:id"} element={<GameFinal />} />
+  <Route path={"/games/:id"} element={<GameFinal />}/>
   <Route path={"/games"} element={<MainGameHome />} />
-  <Route path={"/adminonly"} element={<UserList/>}/>
   <Route path={"/adminop"} element={<AdminForm />} />
   <Route path={"/adminopput/:id"} element={<AdminFormPut />} />
   <Route path={"/about"} element={<About/>}/>

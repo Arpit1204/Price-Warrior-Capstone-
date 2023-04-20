@@ -12,6 +12,7 @@ function AdminFormPut() {
   const [isHide, setIsHide] = useState(true);
   const userName = sessionStorage.getItem('username')
 
+
   useEffect(() => {
     const api = async () => {
       const res = await axios.get(
@@ -45,6 +46,7 @@ function AdminFormPut() {
       setTags(res.data.tags);
       setRelatedLinks(res.data.relatedLinks);
       setCrousel(res.data.crouselImage);
+      setAbc(res.data.userEditAccess)
       setSentence(`${userName} updated this game on ${res.data.updatedAt.slice(0,10)}`)
 
       setTimeout(() => setIsHide(false), 2000);
@@ -73,6 +75,7 @@ function AdminFormPut() {
   const [historyAvg, setHistoryAvg] = useState("");
   const [historyMax, setHistoryMax] = useState("");
   const [sentence, setSentence] = useState("");
+  const [abc, setAbc] = useState([])
   const [editions, setEditions] = useState([{ editionName: "" }]);
 
   const [minimumRequirements, setMinimumRequirements] = useState([
@@ -240,7 +243,7 @@ function AdminFormPut() {
   const removeEditions = () => {};
   const Token=sessionStorage.getItem("token")
 
-  const Update = async (e) => {
+  const Update =  (e) => {
     e.preventDefault();
     if (
       name !== "" &&
@@ -249,7 +252,7 @@ function AdminFormPut() {
       homeImage !== "" &&
       detailImage !== ""
     ) {
-      await fetch(
+       fetch(
         `${process.env.REACT_APP_DataBase_link_to_Access_data}/gamePut/${id}`,
         {
           // Adding method type
@@ -289,7 +292,9 @@ function AdminFormPut() {
             historyMin: historyMin,
             historyAvg: historyAvg,
             historyMax: historyMax,
-            sentence:sentence
+            sentence:sentence,
+            userEditAccess:abc
+
           }),
           
         }

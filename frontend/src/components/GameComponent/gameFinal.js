@@ -6,6 +6,8 @@ import About from "./gameparts/About";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import loadin from '../asseets/loadinghd7.gif'
+import UserList from "../AdminOnlyZone/userList";
+import { RiAdminFill } from "react-icons/ri";
 
 function GameFinal() {
   const { id } = useParams();
@@ -88,6 +90,12 @@ function GameFinal() {
      tags={gameData.tags}
    />
  )}
+
+ {
+  selectedButton.includes('Admin') && (
+    <UserList/>
+  )
+ }
 </div>
     )}
     

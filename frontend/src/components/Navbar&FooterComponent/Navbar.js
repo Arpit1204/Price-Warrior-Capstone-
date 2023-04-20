@@ -216,13 +216,7 @@ function Navbar({ mainRef }) {
           <div className="alert-text">
            {userName}  <PersonIcon style={{marginLeft:'2px'}}/>
           </div>
-          {userDetail && userDetail.isAdmin && (
-            <div className="alert-text"  style={{cursor:'pointer', borderBottom:'1px solid black', borderTop:'1px solid black'}}>
-              <Link to={'/adminonly'} onClick={takeToAdminPage}>
-           Admin <RiAdminFill/>
-          </Link>
-          </div>
-          )}
+          
           
           <div className="alert-btn-container" onClick={logout}>
            Logout <MdLogout style={{marginLeft:'2px'}}/>

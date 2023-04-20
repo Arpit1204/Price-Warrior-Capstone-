@@ -14,6 +14,7 @@ const GameList = ({List, setList}) => {
   const [userDetail, setUserDetail] = useState([]);
 
   const Token=sessionStorage.getItem("token")
+  const decodedToken = jwt_decode(Token);
   useEffect(()=>{
     console.log("detail",userDetail);
   },[userDetail])
@@ -23,8 +24,8 @@ const GameList = ({List, setList}) => {
     if (Token) {
       try {
         // Decode the JWT token
-        const decodedToken = jwt_decode(Token);
-        console.log(decodedToken)
+        // const decodedToken = jwt_decode(Token);
+        // console.log(decodedToken)
 // 
         // Extract the user ID from the decoded token
         const userId = decodedToken._id;
@@ -117,7 +118,20 @@ const GameList = ({List, setList}) => {
                     </div>
                   </div>
                   )}  
-                      
+                  {console.log(List,game.userEditAccess?.some(obj=>obj.id === userDetail._id))}
+                  { game.userEditAccess?.some(obj=>obj.id === userDetail._id) &&(
+                     <div className="delete-edit">
+    
+                     <div className="delete" style={{width:'100%'}}>
+                       <Link to={`/adminopput/${game._id}`}>
+                         <MdEdit
+                           style={{ color: "#fff", fontSize: "2.5rem" }}
+                         />
+                       </Link>
+                     </div>
+                   </div>
+                  )
+                     }
                     
                   <Link
                     to={`/games/${game._id}`}

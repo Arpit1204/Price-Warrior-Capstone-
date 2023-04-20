@@ -61,7 +61,8 @@ const aggregateGameMainGet = [
     "description":1,
     "rating":1,
     "detailImage":1,
-    "currentMin":1
+    "currentMin":1,
+    "userEditAccess":1
     
 }},
 ]
@@ -77,12 +78,48 @@ const middleware=async(req,res,next)=>{
   const token = authorization.split(' ')[1]
   try{
       const {email} = jwd.verify(token,KEY)
-      console.log("dfghjk",email);
+
+      console.log("E-mail",email);
       const check =  await User.findOne({email:email});
       if(check.isAdmin){
         next();
         
       }
+      
+  }
+  catch(err){
+      res.send({"error":"token is required"})
+  }
+  
+}
+
+const middleware2=async(req,res,next)=>{
+  const {id} = req.params
+  const {authorization} = req.headers;
+  if(!authorization){
+      res.send({"error":"Authorization is required"})
+      return;
+  }
+  const token = authorization.split(' ')[1]
+  try{
+      const {email} = jwd.verify(token,KEY)
+      const {_id} = jwd.verify(token,KEY)
+     console.log("E-mail",email);
+      
+
+      const check =  await User.findOne({email:email});
+      console.log("user id",_id);
+      if(check.isAdmin){
+        next();
+        
+      }else{
+        const games = await Games.findById(id)
+        if (games.userEditAccess.some(obj=>obj.id === _id)) {
+          next();
+        }
+          
+        }
+        
       
   }
   catch(err){
@@ -304,7 +341,7 @@ app.delete('/gameDelete/:id', middleware ,async (req, res) => {
     res.status(200).json(games)
   })
 
-  app.put('/gamePut/:id',middleware, async(req, res)=>{
+  app.put('/gamePut/:id', middleware2,async(req, res)=>{
     const {id} = req.params
    
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -325,7 +362,23 @@ app.delete('/gameDelete/:id', middleware ,async (req, res) => {
   })
 
 
+  app.patch('/gamePatch/:id'  , async (req, res) => {
+    const { id } = req.params
   
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({error: 'No Such Game!'})
+    }
+  
+    const workout = await Games.findOneAndUpdate({_id: id}, {
+      ...req.body
+    })
+  
+    if (!workout) {
+      return res.status(400).json({error: 'No Such Game!'})
+    }
+  
+    res.status(200).json(workout)
+  })
 
 
 

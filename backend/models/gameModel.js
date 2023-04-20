@@ -174,6 +174,13 @@ isUpcoming:{
   type:Boolean,
   required:true
 },
+userEditAccess:[
+  {
+    id:{
+      type:String
+    }
+  }
+]
 
   
 },{timestamps:true})

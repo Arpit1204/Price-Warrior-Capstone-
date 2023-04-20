@@ -14,7 +14,7 @@ text-decoration: underline;
 }
 
 .outer-userList-div{
-    background-color: rgb(174, 170, 164);
+    /* background-color: rgb(174, 170, 164); */
     min-height: 64vh;
 }
 

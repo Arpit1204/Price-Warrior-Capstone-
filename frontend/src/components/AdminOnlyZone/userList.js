@@ -2,13 +2,15 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import './userList.css'
-import loadin from '../asseets/loadinghd7.gif'
-
-
+import { FaPlus } from 'react-icons/fa'
+import { useParams } from 'react-router-dom'
 function UserList() {
+   const {id} = useParams()
     const [user, setUser]=useState([])
     const[load, setLoad] = useState(true)
+    const [gamaData, setGameData] = useState({}) 
     const Token = sessionStorage.getItem('token')
+    console.log(id);
     useEffect(()=>{
         console.log(user);
     },[user])
@@ -36,19 +38,28 @@ function UserList() {
     
 },[])
 
-const handlePut = (e, admin)=>{
-    console.log(e.target.id);
-    fetch(`${process.env.REACT_APP_DataBase_link_to_Access_data}/updateAdmin/${e.target.id}`, {
-      method: "PUT",
+useEffect(() => {
+  const apiCall = async ()=>{
+    const res=  await axios.get(`${process.env.REACT_APP_DataBase_link_to_Access_data}/gameGet/${id}`)
+      console.log("asdfghjkl",res.data)
+    setGameData(res.data);
+    
+    
+      
+
+  }
+  apiCall();
+}, [id]);
+
+const handlePut = (admin)=>{
+    fetch(`${process.env.REACT_APP_DataBase_link_to_Access_data}/gamePatch/${id}`, {
+      method: "PATCH",
       headers: {
         'Authorization': 'Bearer ' + Token,
         "Content-type": "application/json; charset=UTF-8",
       },
       body: JSON.stringify({
-        name:admin.name,
-        email:admin.email,
-        isAdmin:admin.isAdmin,
-        password:admin.password
+      userEditAccess:admin
       }),
     })
       .then((res) => res.json())
@@ -64,14 +75,14 @@ const handlePut = (e, admin)=>{
   <>
   {load?(
     <div className="loading-ani">
-    <img src={loadin}/>
+   
     <h2>Loading...</h2>
 </div>
   ):(
     <div className='outer-userList-div'>
 
     <h1 className='heading'>User List</h1>
-    {user.map((elt,i)=>{
+    {user.filter(item=>!item.isAdmin).filter(user=>!gamaData.userEditAccess.some(obj=>obj.id === user._id )).map((elt,i)=>{
 
         return(
 
@@ -89,29 +100,29 @@ const handlePut = (e, admin)=>{
             </label>
 
             <div className="each-labe-input">
-            <label style={{justifyContent:'center',marginBottom: '1rem'}}>
-              <h2>Admin</h2>
+            <label style={{justifyContent:'center',marginBottom: '1rem', width:'auto'}}>
+              <h2>Give Access</h2>
             </label>
+            <div style={{textAlign:'center'}}
+            id={elt._id}
+            onClick={(e) => {if(window.confirm(`Do you want to do Admin Access of ${elt.name} to ${!elt.isAdmin} ?`)){
+              setGameData((prev) => {
+                let newData = {...prev};
+                console.log("newData",newData);
+                newData.userEditAccess.push({
+                  id:elt._id
+                })
+                
+                console.log("newData2",newData.userEditAccess);
+                
+                handlePut(newData.userEditAccess);
+                return newData;
+              });
+            }}}>
+              <FaPlus style={{ backgroundColor:'#fff' , borderRadius:'50%', padding:'0.5rem',fontSize:'2.5rem', cursor:'pointer'}}/>
+            </div>
             <div style={{width:'4vw', display:'flex',width: '33.3%'}}>
-                <input
-                style={{textAlign:'center', cursor:'pointer', width: '60px'}}
-                 value={elt.isAdmin}  readOnly={true}/>
-                ➡️
-                <input
-                onClick={(e) => {if(window.confirm(`Do you want to do Admin Access of ${elt.name} to ${!elt.isAdmin} ?`)){
-                    setUser((prev) => {
-                      let newData = [...prev];
-                      console.log("newData",newData);
-                      newData[i].isAdmin = !newData[i].isAdmin;
-                      console.log("newData2",newData[i]);
-                      
-                      handlePut(e, newData[i]);
-                      return newData;
-                    });
-                  }}}
-                id={elt._id}
-                style={{textAlign:'center', cursor:'pointer', width: '60px'}}
-                 value={!elt.isAdmin}  readOnly={true}/>
+                
             </div>
             
           </div>

@@ -66,7 +66,7 @@ const Login = () => {
 
   return (
     <div className="login-form-container">
-      <form className="login-form" onSubmit={handleSubmit}>
+      <form className="login-form" onSubmit={(e)=>handleSubmit(e)}>
         <h2>Login In</h2>
         <input
           type="email"
@@ -80,7 +80,7 @@ const Login = () => {
           value={password}
           onChange={handlePasswordChange}
         />
-        <button type="submit">Log in</button>
+        <button type="submit" onClick={(e)=>handleSubmit(e)}>Log in</button>
         <p>
           Don't have an account? <Link to={'/signup'}>Sign up</Link> 
         </p>
