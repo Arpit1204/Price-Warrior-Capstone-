@@ -38,7 +38,7 @@ const GameList = ({List, setList}) => {
   return (
     <div>
       <div className="outer-box">
-        {isAuthenticated && (user.email === "arpit.gulati@kalvium.community" || user.email === "kasinath.sg@kalvium.community" || user.email === "sarthaksri@gmail.com") && (
+        {isAuthenticated && (user.email === "arpit.gulati@kalvium.community" || user.email === "kasinath.sg@kalvium.community" || user.email === "sarthaksri2003@gmail.com") && (
           <div className="box">
             <input
               type="search"
@@ -61,7 +61,7 @@ const GameList = ({List, setList}) => {
                   <img className="game-page-cards-img" src={game.homeImage} />
 
                   {isAuthenticated &&
-                    (user.email === "arpit.gulati@kalvium.community" || user.email === "kasinath.sg@kalvium.community" || user.email === "sarthaksri@gmail.com") && (
+                    (user.email === "arpit.gulati@kalvium.community" || user.email === "kasinath.sg@kalvium.community" || user.email === "sarthaksri2003@gmail.com") && (
                       <div className="delete-edit">
                         
                         <div onClick={() => {if(window.confirm('Do you realy want to delete?')){handleDelete(game._id)}} }>
