@@ -185,7 +185,7 @@ function Navbar({ mainRef }) {
               </Link>
             </div>
             {isAuthenticated &&
-              (user.email === "arpit.gulati@kalvium.community" || user.email === "kasinath.sg@kalvium.community") && (
+              (user.email === "arpit.gulati@kalvium.community" || user.email === "kasinath.sg@kalvium.community" || user.email === "sarthaksri2003@kalvium.community" ) && (
                 <Link to={"/adminOp"} style={{ position: "absolute" }}>
                   <Button
                     style={{
